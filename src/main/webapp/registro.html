@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Nueva - Registrar Usuario</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        /* El CSS de la tienda no define estilo para <select>: se iguala al de los inputs */
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--borde);
+            border-radius: var(--radius-inputs);
+            background: #FFFFFF;
+            color: var(--texto-oscuro);
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+        select:focus {
+            border-color: var(--verde-principal);
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.12);
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="login-container">
+
+        <section class="login-card">
+
+            <h1>REGISTRAR USUARIO</h1>
+
+            <p class="subtitulo">
+                Cree un nuevo acceso al sistema
+            </p>
+
+            <!-- Mensaje de error -->
+            <div id="mensajeError" class="mensaje-error" role="alert" hidden>
+                <span class="icono-error" aria-hidden="true">!</span>
+                <div>
+                    <strong>No se pudo registrar</strong>
+                    <p id="textoError"></p>
+                </div>
+            </div>
+
+            <!-- Formulario de registro: se envía al RegistroServlet por POST -->
+            <form id="registroForm" action="RegistroServlet" method="post">
+
+                <div class="campo">
+                    <label for="usuario">Usuario</label>
+                    <input type="text" id="usuario" name="usuario" maxlength="50"
+                           placeholder="Ingrese el nombre de usuario" required>
+                </div>
+
+                <div class="campo">
+                    <label for="clave">Contraseña</label>
+                    <input type="password" id="clave" name="clave" maxlength="100"
+                           placeholder="Ingrese la contraseña" required>
+                </div>
+
+                <div class="campo">
+                    <label for="rol">Rol</label>
+                    <select id="rol" name="rol" required>
+                        <option value="Vendedor">Vendedor</option>
+                        <option value="Administrador">Administrador</option>
+                    </select>
+                </div>
+
+                <button type="submit">Registrar</button>
+
+            </form>
+
+            <div class="links">
+                <a href="index.html">Volver al inicio de sesión</a>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        // Mensajes que envía el servidor en la dirección (?error=...)
+        const textos = {
+            vacio: "Complete el usuario y la contraseña.",
+            rol: "El rol seleccionado no es válido.",
+            existe: "Ese nombre de usuario ya está registrado."
+        };
+        const error = new URLSearchParams(window.location.search).get("error");
+        if (error) {
+            document.getElementById("textoError").textContent = textos[error] || "Ocurrió un error. Intente de nuevo.";
+            document.getElementById("mensajeError").hidden = false;
+        }
+    </script>
+
+</body>
+</html>
